@@ -1,6 +1,4 @@
-use std::fs::File;
 use std::vec::Vec;
-use std::collections::HashMap;
 
 use csv;
 
@@ -8,6 +6,7 @@ mod distance;
 mod table;
 
 use crate::table::{Table, Row};
+use crate::distance::{Distance};
 
 fn main() {
 
@@ -49,7 +48,10 @@ fn main() {
         database.insert_row(id.clone(), row);
     }
 
-    println!("{:#?}", database);
+    let distance_calculator = Distance::Manhattan;
+    println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("Heather")), database.get_row_by_id(&String::from("Bryan"))));
+
+    //println!("{:#?}", database);
 
     let mut table = Table::new();
 

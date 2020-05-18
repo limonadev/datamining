@@ -31,13 +31,15 @@ impl fmt::Debug for Row {
 }
 
 pub struct Table {
-    rows: HashMap<String, Row>
+    rows: HashMap<String, Row>,
+    default_row: Row
 }
 
 impl Table {
     pub fn new() -> Table {
         Table {
-            rows: HashMap::new()
+            rows: HashMap::new(),
+            default_row: Row::new()
         }
     }
 
@@ -47,6 +49,13 @@ impl Table {
 
     pub fn get_rows(&self) -> &HashMap<String, Row> {
         &self.rows
+    }
+
+    pub fn get_row_by_id(&self, id: &String) -> &Row {
+        match self.rows.get(id) {
+            None => &self.default_row,
+            Some(row) => row
+        }
     }
 }
 
