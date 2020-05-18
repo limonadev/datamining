@@ -17,18 +17,18 @@ enum Loader {
 impl Loader {
     fn load_data(&self) -> Table {
         match self {
-            Self::Movies => Self::load_movies(),
             Self::Books => Self::load_books(),
+            Self::Movies => Self::load_movies(),
             Self::Songs => Self::load_songs()
         }
     }
 
-    fn load_movies() -> Table {
+    fn load_books() -> Table {
         let t = Table::new();
         t
     }
 
-    fn load_books() -> Table {
+    fn load_movies() -> Table {
         let mut content = csv::ReaderBuilder::new()
             .has_headers(false)
             .from_path("./Movie_Ratings.csv")
@@ -107,6 +107,5 @@ fn main() {
 
     let distance_calculator = Distance::Euclidean;
     //println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("Heather")), database.get_row_by_id(&String::from("Bryan"))));
-    //println!("{:#?}", database);
     println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("Hailey")), database.get_row_by_id(&String::from("Jordyn"))));
 }
