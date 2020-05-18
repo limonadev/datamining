@@ -24,8 +24,24 @@ impl Loader {
     }
 
     fn load_books() -> Table {
-        let t = Table::new();
-        t
+        let mut content = csv::ReaderBuilder::new()
+            .delimiter(b';')
+            .from_path("./BX-Dump/BX-Book-Ratings.csv")
+            .unwrap();
+
+        let mut database = Table::new();
+        
+        for r in content.records() {
+            if let Ok(row) = r {
+                let user = String::from(row.get(0).unwrap());
+                let book = String::from(row.get(1).unwrap());
+                let punctuation = String::from(row.get(2).unwrap());
+                database.add_to_row(&user, book, punctuation.parse().unwrap_or(0.0));
+            }
+        }
+        
+
+        database
     }
 
     fn load_movies() -> Table {
@@ -37,7 +53,7 @@ impl Loader {
         let mut matrix = Vec::new();
 
         for r in content.records() {
-            if let Ok(record) = r{
+            if let Ok(record) = r {
                 let mut row = Vec::new();
                 for r in record.iter() {
                     row.push(String::from(r));
@@ -73,7 +89,7 @@ impl Loader {
         let mut matrix = Vec::new();
 
         for r in content.records() {
-            if let Ok(record) = r{
+            if let Ok(record) = r {
                 let mut row = Vec::new();
                 for r in record.iter() {
                     row.push(String::from(r));
@@ -103,9 +119,10 @@ impl Loader {
 
 fn main() {
     
-    let database = Loader::Songs.load_data();
+    let database = Loader::Books.load_data();
 
     let distance_calculator = Distance::Euclidean;
     //println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("Heather")), database.get_row_by_id(&String::from("Bryan"))));
-    println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("Hailey")), database.get_row_by_id(&String::from("Jordyn"))));
+    //println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("Hailey")), database.get_row_by_id(&String::from("Jordyn"))));
+    println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("231210")), database.get_row_by_id(&String::from("129358"))));
 }
