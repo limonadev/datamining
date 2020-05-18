@@ -43,12 +43,21 @@ impl Table {
         }
     }
 
-    pub fn insert_row(&mut self, id: String, row: Row) {
-        self.rows.insert(id, row);
+    pub fn insert_row(&mut self, id: &String, row: Row) {
+        self.rows.insert(String::from(id), row);
     }
 
     pub fn get_rows(&self) -> &HashMap<String, Row> {
         &self.rows
+    }
+
+    pub fn add_to_row(&mut self, id: &String, key: String, value: f32) {
+        if let None = self.rows.get_mut(id) {
+            self.insert_row(id, Row::new())
+        }
+        if let Some(row) = self.rows.get_mut(id) {
+            row.add_field(key, value);
+        }
     }
 
     pub fn get_row_by_id(&self, id: &String) -> &Row {
