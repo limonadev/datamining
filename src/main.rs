@@ -105,8 +105,8 @@ fn main() {
     
     let database = Loader::Songs.load_data();
 
-    let distance_calculator = Distance::Manhattan;
+    let distance_calculator = Distance::Euclidean;
     //println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("Heather")), database.get_row_by_id(&String::from("Bryan"))));
     //println!("{:#?}", database);
-    println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("Hailey")), database.get_row_by_id(&String::from("Veronica"))));
+    println!("{}", distance_calculator.calculate(database.get_row_by_id(&String::from("Hailey")), database.get_row_by_id(&String::from("Jordyn"))));
 }
